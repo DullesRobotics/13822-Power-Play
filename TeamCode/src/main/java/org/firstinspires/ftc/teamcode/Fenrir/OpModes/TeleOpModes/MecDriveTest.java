@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.Tyre.OpModes.TeleOpModes;
+package org.firstinspires.ftc.teamcode.Fenrir.OpModes.TeleOpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.RobotManager.MecanumDriveTrain;
-import org.firstinspires.ftc.teamcode.Tyre.Configurator;
+import org.firstinspires.ftc.teamcode.Fenrir.Configurator;
 
 @TeleOp
 public class MecDriveTest extends LinearOpMode {
