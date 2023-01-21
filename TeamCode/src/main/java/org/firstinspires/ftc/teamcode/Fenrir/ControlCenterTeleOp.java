@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.RobotManager.Robot;
 public class ControlCenterTeleOp {
 
     public static double liftUpModifier = 0.6, liftDownModifier = -0.4, liftDefaultPower = 0.1;
+    public static double clawClosedPosition = 0, clawGripPosition = 1, clawOpenPosition = 2;
 
     public static void intakeUpDown(Robot r, Controller ctrl){
         r.addThread(new Thread(() -> {
@@ -27,6 +28,22 @@ public class ControlCenterTeleOp {
                 } else {
                     leftLiftMotor.get().setPower(liftDefaultPower);
                     rightLiftMotor.get().setPower(liftDefaultPower * -1);
+                }
+            }
+        }), true);
+    }
+
+    public static void clawRelease(Robot r, Controller ctrl){
+        r.addThread(new Thread(() -> {
+            Servo outtakeServo = r.getServo("CLAW");
+            outtakeServo.get().setPosition(clawOpenPosition);
+            while (r.op().opModeIsActive()) {
+                if(ctrl.rightBumper())
+                    outtakeServo.get().setPosition(clawClosedPosition);
+                else if(ctrl.leftBumper()){
+                    outtakeServo.get().setPosition(clawGripPosition);
+                } else {
+                    outtakeServo.get().setPosition(clawOpenPosition);
                 }
             }
         }), true);

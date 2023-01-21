@@ -31,7 +31,7 @@ public class Configurator {
                 driveTrainMotors[3],
                 new Motor(robot, "LL", LEFTLIFT, false),
                 new Motor(robot, "RL", RIGHTLIFT, false),
-                //new Servo(robot, "CLAW", CLAW),
+                new Servo(robot, "CLAW", CLAW),
                 //new IMU(robot, "IMU"),
                 //new Servo(robot, "OT", OUTTAKE),
                 //new USBWebcam(robot, "Webcam"),
