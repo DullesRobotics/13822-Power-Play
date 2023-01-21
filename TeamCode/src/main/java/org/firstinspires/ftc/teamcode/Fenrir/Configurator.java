@@ -22,21 +22,21 @@ public class Configurator {
     public static HardwareComponent[] getHardware(Robot robot){
 
         HardwareComponent[] driveTrainMotors = getDriveTrainMotors(robot);
-        Motor carouselMotor = new Motor(robot, "CAR" ,CAROUSEL ,false );
+        //Motor carouselMotor = new Motor(robot, "CAR" ,CAROUSEL ,false );
 
         return(new HardwareComponent[]{
                 driveTrainMotors[0],
                 driveTrainMotors[1],
                 driveTrainMotors[2],
                 driveTrainMotors[3],
-                new Motor(robot, "LIFT", LIFT, false),
-                new Motor(robot, "IN", INTAKE, false),
+                new Motor(robot, "LL", LEFTLIFT, false),
+                new Motor(robot, "RL", RIGHTLIFT, false),
                 new IMU(robot, "IMU"),
-                new Servo(robot, "OT", OUTTAKE),
-                new Servo(robot, "ARM", CLAW),
-                new USBWebcam(robot, "Webcam"),
+                new Servo(robot, "CLAW", CLAW),
+                //new Servo(robot, "OT", OUTTAKE),
+                //new USBWebcam(robot, "Webcam"),
                 //  new ColorSensor(robot, "CS", INTAKE),
-                carouselMotor
+                //carouselMotor
         });
     }
 

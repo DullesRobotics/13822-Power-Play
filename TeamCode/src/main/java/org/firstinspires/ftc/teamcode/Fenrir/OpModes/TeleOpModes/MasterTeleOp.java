@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Fenrir.OpModes.TeleOpModes;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.Fenrir.ControlCenterTeleOp;
 import org.firstinspires.ftc.teamcode.RobotManager.MecanumDriveTrain;
 import org.firstinspires.ftc.teamcode.RobotManager.StandardDriveTrain;
 import org.firstinspires.ftc.teamcode.Fenrir.Configurator;
@@ -19,6 +20,7 @@ public class MasterTeleOp extends LinearOpMode {
         waitForStart();
 
         baseRobot.driveWithController(baseRobot.ctrl1());
+        ControlCenterTeleOp.intakeUpDown(baseRobot, baseRobot.ctrl2());
 
 
         while (opModeIsActive())

@@ -4,7 +4,8 @@ public enum ComponentArea {
 
     DRIVE_TRAIN,
     CENTER_OMNI,
-    LIFT,
+    LEFTLIFT,
+    RIGHTLIFT,
     INTAKE,
     OUTTAKE,
     SHOOTER,
