@@ -95,6 +95,11 @@ public class EasyOpenCV extends AddOn {
                 FtcDashboard.getInstance().startCameraStream(camera, 30);
 
             }
+
+            @Override
+            public void onError(int errorCode) {
+
+            }
         });
     }
 
