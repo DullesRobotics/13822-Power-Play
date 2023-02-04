@@ -11,12 +11,12 @@ import org.firstinspires.ftc.teamcode.RobotManager.Robot;
 @Config
 public class ControlCenterTeleOp {
 
-    public static double liftUpModifier = 0.8, liftDownModifier = -0.6, liftDefaultPower = 0.07;
+    public static double liftUpModifier = -0.8, liftDownModifier = 1, liftDefaultPower = -0.07;
     public static double clawClosedPosition = 0.3, clawGripPosition = 0.2, clawOpenPosition = 0.5;
 
     public static void intakeUpDown(Robot r, Controller ctrl){
         r.addThread(new Thread(() -> {
-            Motor leftLiftMotor = r.getMotor("LL");
+            Motor leftLiftMotor = r.getMotor("VS");
             //Motor rightLiftMotor = r.getMotor("RL");
             while(r.op().opModeIsActive()){
                 if(ctrl.leftTrigger() > 0){ //DOWN

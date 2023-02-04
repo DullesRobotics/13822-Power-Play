@@ -111,10 +111,10 @@ public class  MecanumDriveTrain extends StandardDriveTrain {
     public void autoStrafeTimed(long millis, boolean goLeft){
         getLogger().log(Level.INFO, "Strafing, Timed");
         long time = System.currentTimeMillis() + millis;
-        double tempSpeed = speed/4;
+        double tempSpeed = speed/2;
+        if(!goLeft) tempSpeed *= -1;
         while(op().opModeIsActive() && time > System.currentTimeMillis()){
-            if(goLeft) tempSpeed *= -1;
-            setIndividualDrivePower(speed, -speed, speed, -speed);
+            setIndividualDrivePower(tempSpeed,-tempSpeed,1.1 * -tempSpeed,1.1 * tempSpeed);
             getLogger().putData("Speed (FL, BL, FR, BR)", "(" + speed + ", " + -speed + ", " + -speed + ", " + speed + ")");
         }
         setUniformDrivePower(0);
