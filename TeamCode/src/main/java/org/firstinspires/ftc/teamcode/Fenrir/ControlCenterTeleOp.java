@@ -8,6 +8,8 @@ import org.firstinspires.ftc.teamcode.Hardware.Motor.Motor;
 import org.firstinspires.ftc.teamcode.Hardware.Servo;
 import org.firstinspires.ftc.teamcode.RobotManager.Robot;
 
+import java.util.logging.Level;
+
 @Config
 public class ControlCenterTeleOp {
 
@@ -28,6 +30,21 @@ public class ControlCenterTeleOp {
                 } else {
                     leftLiftMotor.get().setPower(liftDefaultPower);
                     //rightLiftMotor.get().setPower(liftDefaultPower * -1);
+                }
+            }
+        }), true);
+    }
+
+    public static void liftLocation(Robot r, Controller ctrl){
+        r.addThread(new Thread(() -> {
+            Motor liftMotor = r.getMotor("VS");
+            while(r.op().opModeIsActive()){
+                if(ctrl.buttonX()){
+                    liftMotor.get().setTargetPosition(liftMotor.get().getCurrentPosition());
+                } else if (ctrl.buttonY()) {
+
+                } else if (ctrl.buttonUp()) {
+
                 }
             }
         }), true);

@@ -29,7 +29,7 @@ public class Configurator {
                 driveTrainMotors[1],
                 driveTrainMotors[2],
                 driveTrainMotors[3],
-                new Motor(robot, "VS", VERTSLIDE, false),
+                new Motor(robot, "VS", VERTSLIDE, true),
                 new Servo(robot, "CLAW", CLAW),
                 //new IMU(robot, "IMU"),
                 //new Servo(robot, "OT", OUTTAKE),
@@ -44,13 +44,13 @@ public class Configurator {
         MotorConfiguration MC = new MotorConfiguration(
                 MotorType.GO_BUILD_A_YELLOW_JACKET,
                 true,
-                2.9528,
+                3.7795,
                 1);
 
-        DrivetrainMotor motorFrontLeft = new DrivetrainMotor(robot, "FLM", MC, false, MotorType.DrivetrainPosition.FLM);
-        DrivetrainMotor motorFrontRight = new DrivetrainMotor(robot, "FRM", MC, false, MotorType.DrivetrainPosition.FRM);
-        DrivetrainMotor motorBackLeft = new DrivetrainMotor(robot, "BLM", MC, false, MotorType.DrivetrainPosition.BLM);
-        DrivetrainMotor motorBackRight = new DrivetrainMotor(robot, "BRM", MC, false, MotorType.DrivetrainPosition.BRM);
+        DrivetrainMotor motorFrontLeft = new DrivetrainMotor(robot, "FLM", MC, true, MotorType.DrivetrainPosition.FLM);
+        DrivetrainMotor motorFrontRight = new DrivetrainMotor(robot, "FRM", MC, true, MotorType.DrivetrainPosition.FRM);
+        DrivetrainMotor motorBackLeft = new DrivetrainMotor(robot, "BLM", MC, true, MotorType.DrivetrainPosition.BLM);
+        DrivetrainMotor motorBackRight = new DrivetrainMotor(robot, "BRM", MC, true, MotorType.DrivetrainPosition.BRM);
 
         return(new HardwareComponent[]{
                 motorFrontLeft,
