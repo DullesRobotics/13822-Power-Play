@@ -19,9 +19,20 @@ import java.util.List;
 @Config
 public class ImageScanningPipeline extends OpenCvPipeline implements Pipeline{
 
+    private Position thisPosition;
     public Mat processFrame(Mat input){
         Imgproc.rectangle(input, new Rect(new Point(0,100),new Point(200,EasyOpenCV.VIEWPORT_HEIGHT)),new Scalar(255,255,255));
         return input;
+    }
+
+    private Position coneMarker(Mat input){
+        Position position;
+
+        for(int x = 0; x < EasyOpenCV.VIEWPORT_WIDTH; x+=2){
+            
+        }
+
+        return position;
     }
 
     @Override
@@ -29,5 +40,10 @@ public class ImageScanningPipeline extends OpenCvPipeline implements Pipeline{
 //        l.putData("Cone Side: ", );
     }
 
+    enum Position{
+        POS1,
+        POS2,
+        POS3;
+    }
 
 }
