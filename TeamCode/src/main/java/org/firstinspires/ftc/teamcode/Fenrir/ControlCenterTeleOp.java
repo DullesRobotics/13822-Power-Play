@@ -40,20 +40,39 @@ public class ControlCenterTeleOp {
         r.addThread(new Thread(() -> {
             Motor liftMotor = r.getMotor("VS");
             boolean isOn = false, up = false, togglePressedHigh = false, togglePressedMiddle = false, togglePressedLow = false;
-            long current = System.currentTimeMillis();
             while(r.op().opModeIsActive()){
                 r.getLogger().putData("Intake Status", isOn ? up ? "Up" : "Down" : "Hover");
 
-                if(togglePressedHigh && !ctrl.buttonX() && System.currentTimeMillis() > (System.currentTimeMillis()+liftHighTime))
+                if(togglePressedHigh && !ctrl.buttonX() && System.currentTimeMillis() > (System.currentTimeMillis()+liftHighTime)) {
                     togglePressedHigh = false;
+                    isOn = false;
+                }
 
-                if(togglePressedMiddle && !ctrl.buttonY())
+                if(togglePressedMiddle && !ctrl.buttonY() && System.currentTimeMillis() > (System.currentTimeMillis()+liftMidTime)) {
                     togglePressedMiddle = false;
+                    isOn = false;
+                }
 
-                if(togglePressedLow && !ctrl.buttonUp())
+                if(togglePressedLow && !ctrl.buttonUp() && System.currentTimeMillis() > (System.currentTimeMillis()+liftLowTime)){
                     togglePressedLow = false;
+                    isOn = false;
+                }
+
+                if(togglePressedHigh || togglePressedMiddle || togglePressedLow){
+                    isOn = true;
+                } else if (togglePressedHigh) {
+                    togglePressedHigh = true;
+                } else if (togglePressedMiddle) {
+                    togglePressedMiddle = true;
+                } else if (togglePressedLow) {
+                    togglePressedLow = true;
+                }
+
+                if(isOn)
+                    liftMotor.get().setPower(liftUpModifier);
 
 
+/*
                 if(ctrl.buttonX()){
                     liftMotor.get().setPower(-0.8);
                     liftMotor.get().setPower(liftDefaultPower);
@@ -68,6 +87,8 @@ public class ControlCenterTeleOp {
                 } else if (ctrl.buttonDown()){
                     liftMotor.get().setPower(1);
                 }
+                */
+
             }
         }), true);
     }
