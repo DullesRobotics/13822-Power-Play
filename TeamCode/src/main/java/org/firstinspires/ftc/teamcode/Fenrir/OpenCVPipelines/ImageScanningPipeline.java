@@ -33,7 +33,7 @@ public class ImageScanningPipeline extends OpenCvPipeline implements Pipeline{
     }
 
     private Position coneMarker(Mat input){
-        Position position;
+        Position position = null;
 
         double numerator = 0;
         double denominator = 0;
