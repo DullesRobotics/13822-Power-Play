@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.RobotManager.MecanumDriveTrain;
 public class AutonomousFunctions {
     private static volatile MecanumDriveTrain mainFrame;
     public static int timeToDriveFar = 6200, timeToDriveNear = 1000;
-    public static int timeToStrafeNear = 1325, timeToStrafeFar = 1000;
+    public static int timeToStrafeNear = 1825, timeToStrafeFar = 1000;
     public static int timeToLIFT = 1600, correctionTime = 250, timeToSpin = 4000, timeToStrafe = 500;
 
     public static void parkTime(LinearOpMode op, TeamColor t, FieldPosition position) {

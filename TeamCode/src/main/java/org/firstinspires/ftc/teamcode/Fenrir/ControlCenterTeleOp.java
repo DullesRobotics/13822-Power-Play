@@ -13,8 +13,9 @@ import java.util.logging.Level;
 @Config
 public class ControlCenterTeleOp {
 
-    public static double liftUpModifier = -0.8, liftDownModifier = 1, liftDefaultPower = -0.07;
+    public static double liftUpModifier = -0.8, liftDownModifier = 0.8, liftDefaultPower = -0.07;
     public static double clawClosedPosition = 0.3, clawGripPosition = 0.2, clawOpenPosition = 0.5;
+    public static double liftHighTime = 2500, liftMidTime = 1000, liftLowTime = 500;
 
     public static void intakeUpDown(Robot r, Controller ctrl){
         r.addThread(new Thread(() -> {
@@ -38,13 +39,34 @@ public class ControlCenterTeleOp {
     public static void liftLocation(Robot r, Controller ctrl){
         r.addThread(new Thread(() -> {
             Motor liftMotor = r.getMotor("VS");
+            boolean isOn = false, up = false, togglePressedHigh = false, togglePressedMiddle = false, togglePressedLow = false;
+            long current = System.currentTimeMillis();
             while(r.op().opModeIsActive()){
+                r.getLogger().putData("Intake Status", isOn ? up ? "Up" : "Down" : "Hover");
+
+                if(togglePressedHigh && !ctrl.buttonX() && System.currentTimeMillis() > (System.currentTimeMillis()+liftHighTime))
+                    togglePressedHigh = false;
+
+                if(togglePressedMiddle && !ctrl.buttonY())
+                    togglePressedMiddle = false;
+
+                if(togglePressedLow && !ctrl.buttonUp())
+                    togglePressedLow = false;
+
+
                 if(ctrl.buttonX()){
-                    liftMotor.get().setTargetPosition(liftMotor.get().getCurrentPosition());
+                    liftMotor.get().setPower(-0.8);
+                    liftMotor.get().setPower(liftDefaultPower);
                 } else if (ctrl.buttonY()) {
-
+                    while (System.currentTimeMillis()<liftMidTime)
+                        liftMotor.get().setPower(-0.8);
+                    liftMotor.get().setPower(liftDefaultPower);
                 } else if (ctrl.buttonUp()) {
-
+                    while (System.currentTimeMillis()<liftLowTime)
+                        liftMotor.get().setPower(-0.8);
+                    liftMotor.get().setPower(liftDefaultPower);
+                } else if (ctrl.buttonDown()){
+                    liftMotor.get().setPower(1);
                 }
             }
         }), true);
