@@ -28,7 +28,8 @@ public class ImageScanningPipeline extends OpenCvPipeline implements Pipeline{
     private Position thisPosition;
     public Mat processFrame(Mat input){
         Imgproc.cvtColor(input, dst, Imgproc.COLOR_RGB2GRAY);
-        Imgproc.rectangle(input, new Rect(new Point(0,100),new Point(200,EasyOpenCV.VIEWPORT_HEIGHT)),new Scalar(255,255,255));
+        Position parkArea = coneMarker(input);
+//        Imgproc.rectangle(input, new Rect(new Point(0,100),new Point(200,EasyOpenCV.VIEWPORT_HEIGHT)),new Scalar(255,255,255));
         return input;
     }
 
@@ -49,6 +50,16 @@ public class ImageScanningPipeline extends OpenCvPipeline implements Pipeline{
         Rect[] ducksInCapstone = ducksFound.toArray();
         for(Rect duck : ducksInCapstone){
             Imgproc.rectangle(input, duck.tl(), duck.br(),new Scalar(0,255,0));
+        }
+
+        if(ducksInCapstone.length == 1){
+            position = Position.POS1;
+        }
+        else if(ducksInCapstone.length == 2){
+            position = Position.POS2;
+        }
+        else{
+            position = Position.POS3;
         }
 
         return position;
