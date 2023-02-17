@@ -11,6 +11,10 @@ import org.firstinspires.ftc.teamcode.RobotManager.MecanumDriveTrain;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.firstinspires.ftc.teamcode.Fenrir.OpenCVPipelines.ColorScanningPipeline;
 
+import org.firstinspires.ftc.teamcode.Fenrir.AutonomousFunctions;
+import static org.firstinspires.ftc.teamcode.Fenrir.AutonomousFunctions.FieldPosition.LONG;
+import static org.firstinspires.ftc.teamcode.Fenrir.AutonomousFunctions.TeamColor.RED;
+
 @Autonomous
 public class WebcamTest extends LinearOpMode {
     private MecanumDriveTrain robot;
@@ -19,10 +23,12 @@ public class WebcamTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         robot = new MecanumDriveTrain(this);
 
-        robot.addHardware(new USBWebcam(robot, "Webcam"));
-        ColorScanningPipeline pipe = new ColorScanningPipeline();
-        EasyOpenCV ez = new EasyOpenCV(pipe, robot.getUSBWebcam("Webcam"), OpenCvCameraRotation.UPRIGHT);
-        robot.addOnManager().initAddOn(ez);
+//        robot.addHardware(new USBWebcam(robot, "Webcam"));
+//        ColorScanningPipeline pipe = new ColorScanningPipeline();
+//        EasyOpenCV ez = new EasyOpenCV(pipe, robot.getUSBWebcam("Webcam"), OpenCvCameraRotation.UPRIGHT);
+//        robot.addOnManager().initAddOn(ez);
+
+        AutonomousFunctions.webCamTest(this, RED, LONG);
 
         waitForStart();
 

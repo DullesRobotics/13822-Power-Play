@@ -23,8 +23,8 @@ public class ColorScanningPipeline extends OpenCvPipeline implements Pipeline{
     public Color colorArea;
 
     public Mat processFrame(Mat input){
-        colorArea = detectColor(input);
         Imgproc.rectangle(input, new Rect(new Point(0,0), new Point(200, EasyOpenCV.VIEWPORT_HEIGHT)), new Scalar(124, 255, 0), 5);
+        colorArea = detectColor(input);
         return input;
     }
 

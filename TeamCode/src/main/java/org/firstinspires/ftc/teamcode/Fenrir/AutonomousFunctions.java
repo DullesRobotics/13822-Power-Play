@@ -8,6 +8,8 @@ import org.firstinspires.ftc.teamcode.Libraries.AddOns.EasyOpenCV;
 import org.firstinspires.ftc.teamcode.RobotManager.MecanumDriveTrain;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
+import java.text.FieldPosition;
+
 //import static org.firstinspires.ftc.teamcode.Fenrir.OpenCVPipelines.ColorScanningPipeline
 
 
@@ -61,6 +63,35 @@ public class AutonomousFunctions {
         if (op.isStopRequested()) return;
 
     }
+
+    public static void webCamTest(LinearOpMode op, TeamColor t, FieldPosition position) {
+        mainFrame = new MecanumDriveTrain(op);
+
+        mainFrame.addHardware(Configurator.getHardware(mainFrame));
+        mainFrame.addHardware(new USBWebcam(mainFrame, "Webcam"));
+        ColorScanningPipeline pipe = new ColorScanningPipeline();
+        EasyOpenCV ez = new EasyOpenCV(pipe, mainFrame.getUSBWebcam("Webcam"), OpenCvCameraRotation.UPRIGHT);
+        mainFrame.addOnManager().initAddOn(ez);
+
+        op.waitForStart();
+        if (op.isStopRequested()) return;
+        long timeToDrive = 500;
+//        boolean isRed = t == TeamColor.RED ? true : false;
+
+        while (System.currentTimeMillis() < timeToDrive && op.opModeIsActive()){
+            if (pipe.colorArea == ColorScanningPipeline.Color.PURPLE) {
+                mainFrame.autoStrafeTimed(200, true);
+                mainFrame.setIndividualDrivePower(-0.1,-0.1,-0.1,-0.1);
+            }
+            else if(pipe.colorArea == ColorScanningPipeline.Color.BLUE)
+                mainFrame.setIndividualDrivePower(-0.05,-0.05,-0.05,-0.05);
+            else{
+                mainFrame.autoStrafeTimed(200, false);
+                mainFrame.setIndividualDrivePower(-0.1,-0.1,-0.1,-0.1);
+            }
+        }
+    }
+
         public enum TeamColor{
             RED, BLUE
         }
