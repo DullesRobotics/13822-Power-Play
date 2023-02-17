@@ -16,6 +16,7 @@ public class ControlCenterTeleOp {
     public static double liftUpModifier = -0.8, liftDownModifier = 0.8, liftDefaultPower = -0.07;
     public static double clawClosedPosition = 0.3, clawGripPosition = 0.2, clawOpenPosition = 0.5;
     public static double liftHighTime = 2500, liftMidTime = 1000, liftLowTime = 500;
+    public static double lowerHighTime = 0, lowerMidTime = 0, lowerLowTime = 0;
 
     public static void intakeUpDown(Robot r, Controller ctrl){
         r.addThread(new Thread(() -> {
@@ -39,55 +40,57 @@ public class ControlCenterTeleOp {
     public static void liftLocation(Robot r, Controller ctrl){
         r.addThread(new Thread(() -> {
             Motor liftMotor = r.getMotor("VS");
-            boolean isOn = false, up = false, togglePressedHigh = false, togglePressedMiddle = false, togglePressedLow = false;
-            while(r.op().opModeIsActive()){
-                r.getLogger().putData("Intake Status", isOn ? up ? "Up" : "Down" : "Hover");
+            boolean togglePressedHigh = false, togglePressedMiddle = false, togglePressedLow = false,togglePressedDown = false, isHigh = false, isMiddle = false, isLow = false;
+            while(r.op().opModeIsActive()) {
+                r.getLogger().putData("Lift Status", togglePressedHigh || togglePressedMiddle || togglePressedLow ? "Raising" : "Hover");
 
-                if(togglePressedHigh && !ctrl.buttonX() && System.currentTimeMillis() > (System.currentTimeMillis()+liftHighTime)) {
+                //Sets each toggle variable == false
+                if (togglePressedHigh &&  System.currentTimeMillis() > (System.currentTimeMillis() + liftHighTime)) {
                     togglePressedHigh = false;
-                    isOn = false;
+                    isHigh = true;
                 }
-
-                if(togglePressedMiddle && !ctrl.buttonY() && System.currentTimeMillis() > (System.currentTimeMillis()+liftMidTime)) {
+                if (togglePressedMiddle &&  System.currentTimeMillis() > (System.currentTimeMillis() + liftMidTime)) {
                     togglePressedMiddle = false;
-                    isOn = false;
+                    isMiddle = true;
                 }
-
-                if(togglePressedLow && !ctrl.buttonUp() && System.currentTimeMillis() > (System.currentTimeMillis()+liftLowTime)){
+                if (togglePressedLow &&  System.currentTimeMillis() > (System.currentTimeMillis() + liftLowTime)) {
                     togglePressedLow = false;
-                    isOn = false;
+                    isLow = true;
                 }
 
-                if(togglePressedHigh || togglePressedMiddle || togglePressedLow){
-                    isOn = true;
-                } else if (togglePressedHigh) {
+                if(isHigh && System.currentTimeMillis() > (System.currentTimeMillis() + lowerHighTime)) {
+                    togglePressedDown = false;
+                    isHigh = false;
+                }
+                if(isMiddle && System.currentTimeMillis() > (System.currentTimeMillis() + lowerMidTime)) {
+                    togglePressedDown = false;
+                    isMiddle = false;
+                }
+                if(isLow && System.currentTimeMillis() > (System.currentTimeMillis() + lowerLowTime)) {
+                    togglePressedDown = false;
+                    isLow = false;
+                }
+
+                //Sets each toggle == true based on controller input
+                if (ctrl.buttonUp())
                     togglePressedHigh = true;
-                } else if (togglePressedMiddle) {
+                if (ctrl.buttonY())
                     togglePressedMiddle = true;
-                } else if (togglePressedLow) {
+                if (ctrl.buttonX())
                     togglePressedLow = true;
-                }
+                if (ctrl.buttonDown())
+                    togglePressedDown = true;
 
-                if(isOn)
+                //Sets motor power to up if any toggle booleans == true
+                //Sets motor power to down is togglePressedDown boolean == true
+                //Sets motor power default if all toggle booleans == false
+                if (togglePressedHigh || togglePressedMiddle || togglePressedLow) {
                     liftMotor.get().setPower(liftUpModifier);
-
-
-/*
-                if(ctrl.buttonX()){
-                    liftMotor.get().setPower(-0.8);
+                } else if(togglePressedDown) {
+                    liftMotor.get().setPower(liftDownModifier);
+                }else{
                     liftMotor.get().setPower(liftDefaultPower);
-                } else if (ctrl.buttonY()) {
-                    while (System.currentTimeMillis()<liftMidTime)
-                        liftMotor.get().setPower(-0.8);
-                    liftMotor.get().setPower(liftDefaultPower);
-                } else if (ctrl.buttonUp()) {
-                    while (System.currentTimeMillis()<liftLowTime)
-                        liftMotor.get().setPower(-0.8);
-                    liftMotor.get().setPower(liftDefaultPower);
-                } else if (ctrl.buttonDown()){
-                    liftMotor.get().setPower(1);
                 }
-                */
 
             }
         }), true);
