@@ -33,7 +33,7 @@ public class Configurator {
                 new Servo(robot, "CLAW", CLAW),
                 //new IMU(robot, "IMU"),
                 //new Servo(robot, "OT", OUTTAKE),
-                //new USBWebcam(robot, "Webcam"),
+                new USBWebcam(robot, "Webcam"),
                 //  new ColorSensor(robot, "CS", INTAKE),
                 //carouselMotor
         });

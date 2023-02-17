@@ -18,6 +18,14 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This program is used to scan Images
+ * Right now it is still in testing this program tries to grayscale an image
+ * and try to connect it to a duck shaped image, the more ducks, the more images that show
+ *
+ * Put on hold, will come back to this later
+ * */
+
 @Config
 public class ImageScanningPipeline extends OpenCvPipeline implements Pipeline{
 
