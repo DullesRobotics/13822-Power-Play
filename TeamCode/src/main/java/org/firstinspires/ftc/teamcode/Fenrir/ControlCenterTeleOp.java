@@ -72,13 +72,14 @@ public class ControlCenterTeleOp {
                 }
 
                 //Sets each toggle == true based on controller input
-                if (ctrl.buttonUp())
-                    togglePressedHigh = true;
-                if (ctrl.buttonY())
-                    togglePressedMiddle = true;
-                if (ctrl.buttonX())
-                    togglePressedLow = true;
-                if (ctrl.buttonDown())
+                if(!togglePressedHigh||!togglePressedMiddle||!togglePressedLow) {
+                    if (ctrl.buttonUp())
+                        togglePressedHigh = true;
+                    if (ctrl.buttonY())
+                        togglePressedMiddle = true;
+                    if (ctrl.buttonX())
+                        togglePressedLow = true;
+                }else if (ctrl.buttonDown() && isHigh || isMiddle || isLow)
                     togglePressedDown = true;
 
                 //Sets motor power to up if any toggle booleans == true
