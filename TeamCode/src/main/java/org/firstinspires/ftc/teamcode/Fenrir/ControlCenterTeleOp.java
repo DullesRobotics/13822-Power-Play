@@ -14,7 +14,7 @@ import java.util.logging.Level;
 public class ControlCenterTeleOp {
 
     public static double liftUpModifier = -0.8, liftDownModifier = 0.8, liftDefaultPower = -0.07;
-    public static double clawClosedPosition = 0.3, clawGripPosition = 0.2, clawOpenPosition = 0.5;
+    public static double clawClosedPosition = 0.2, clawGripPosition = 0.15, clawOpenPosition = 0.4;
     public static double liftHighTime = 2500, liftMidTime = 1000, liftLowTime = 500;
     public static double lowerHighTime = 0, lowerMidTime = 0, lowerLowTime = 0;
 
