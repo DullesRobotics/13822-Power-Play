@@ -3,6 +3,9 @@ package org.firstinspires.ftc.teamcode.Fenrir;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Fenrir.OpenCVPipelines.ColorScanningPipeline;
+import org.firstinspires.ftc.teamcode.Hardware.ComponentArea;
+import org.firstinspires.ftc.teamcode.Hardware.Motor.Motor;
+import org.firstinspires.ftc.teamcode.Hardware.Servo;
 import org.firstinspires.ftc.teamcode.Hardware.USBWebcam;
 import org.firstinspires.ftc.teamcode.Libraries.AddOns.EasyOpenCV;
 import org.firstinspires.ftc.teamcode.RobotManager.MecanumDriveTrain;
@@ -16,29 +19,35 @@ import java.text.FieldPosition;
 
 public class AutonomousFunctions {
     private static volatile MecanumDriveTrain mainFrame;
-    public static int timeToDriveFar = 6200, timeToDriveNear = 1000;
+    public static int timeToDriveFar = 6200, timeToDriveNear = 1000, timeToPark  = 2000, timeToPush = 4000;
     public static int timeToStrafeNear = 1825, timeToStrafeFar = 1000;
     public static int timeToLIFT = 1600, correctionTime = 250, timeToSpin = 4000, timeToStrafe = 500;
 
     public static void parkTime(LinearOpMode op, TeamColor t, FieldPosition position) {
         mainFrame = new MecanumDriveTrain(op);
         mainFrame.addHardware(Configurator.getHardware(mainFrame));
-//        mainFrame.addHardware(new USBWebcam(mainFrame, "Webcam"));
-//        ColorScanningPipeline pipe = new ColorScanningPipeline();
-//        EasyOpenCV ez = new EasyOpenCV(pipe, mainFrame.getUSBWebcam("Webcam"), OpenCvCameraRotation.UPRIGHT);
-//        mainFrame.addOnManager().initAddOn(ez);
+        Servo claw = mainFrame.getServo("CLAW");
         op.waitForStart();
         if (op.isStopRequested()) return;
         long timeToDrive = position == FieldPosition.LONG ? timeToDriveFar + timeToStrafeNear : timeToStrafeNear;
+        timeToDrive += timeToPark + timeToPush;
         boolean isRed = t == TeamColor.RED ? true : false;
         timeToDrive += System.currentTimeMillis();
         while (System.currentTimeMillis() < timeToDrive && op.opModeIsActive())
             if (position == FieldPosition.SHORT) {
-                //If team is red and on short side strafe left a short distance
+                //If team is on short side strafe left a short distance
+                claw.get().setPosition(0.15);
+                mainFrame.autonWait(100);
                 mainFrame.autoStrafeTimed(timeToStrafeNear, isRed);
+                mainFrame.setIndividualDrivePower(-0.3, -0.3, 0.3, 0.3);
+                mainFrame.autonWait(200);
+                claw.get().setPosition(0.3);
+                mainFrame.autonWait(200);
+                mainFrame.setIndividualDrivePower(0.3, 0.3, -0.3, -0.3);
+
             }
             else if (position == FieldPosition.LONG) {
-                //If team is red and on long side strafe right a short distance
+                //If team is on long side strafe right a short distance
                 //Then drive forward a long distance
                 mainFrame.autoStrafeTimed(timeToStrafeNear, !isRed);
                 mainFrame.setIndividualDrivePower(-0.3, -0.3, -0.3, -0.3);
@@ -76,17 +85,17 @@ public class AutonomousFunctions {
         op.waitForStart();
         if (op.isStopRequested()) return;
         long timeToDrive = 500;
-//        boolean isRed = t == TeamColor.RED ? true : false;
+        boolean isRed = t == TeamColor.RED ? true : false;
 
         while (System.currentTimeMillis() < timeToDrive && op.opModeIsActive()){
             if (pipe.colorArea == ColorScanningPipeline.Color.PURPLE) {
-                mainFrame.autoStrafeTimed(200, true);
+                mainFrame.autoStrafeTimed(200, isRed);
                 mainFrame.setIndividualDrivePower(-0.1,-0.1,-0.1,-0.1);
             }
             else if(pipe.colorArea == ColorScanningPipeline.Color.BLUE)
                 mainFrame.setIndividualDrivePower(-0.05,-0.05,-0.05,-0.05);
             else{
-                mainFrame.autoStrafeTimed(200, false);
+                mainFrame.autoStrafeTimed(200, !isRed);
                 mainFrame.setIndividualDrivePower(-0.1,-0.1,-0.1,-0.1);
             }
         }
